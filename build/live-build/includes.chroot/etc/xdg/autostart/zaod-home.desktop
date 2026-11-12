@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zaod Home
+Comment=Zaod OS launcher
+Exec=/usr/local/bin/zaod-home --autostart
+Icon=web-browser
+Terminal=false
+X-GNOME-Autostart-enabled=true

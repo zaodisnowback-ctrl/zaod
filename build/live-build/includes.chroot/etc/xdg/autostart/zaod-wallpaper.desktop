@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zaod Wallpaper
+Comment=Apply Zaod wallpaper on the detected monitor
+Exec=/usr/local/bin/zaod-wallpaper
+Icon=preferences-desktop-wallpaper
+Terminal=false
+X-GNOME-Autostart-enabled=true

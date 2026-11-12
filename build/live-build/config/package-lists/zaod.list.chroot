@@ -1,0 +1,72 @@
+# ---- live system ----
+live-boot
+live-config
+live-config-systemd
+systemd-sysv
+
+# ---- kernel + firmware (old laptops: Intel HD graphics, WiFi, BT) ----
+linux-image-amd64
+initramfs-tools
+firmware-linux
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
+firmware-brcm80211
+firmware-misc-nonfree
+
+# ---- graphics + input ----
+xorg
+xserver-xorg
+xserver-xorg-video-intel
+xserver-xorg-video-vesa
+xserver-xorg-video-fbdev
+xserver-xorg-input-libinput
+xserver-xorg-input-synaptics
+
+# ---- desktop ----
+xfce4
+xfce4-terminal
+thunar
+thunar-archive-plugin
+mousepad
+ristretto
+xfce4-taskmanager
+xfce4-settings
+xfce4-power-manager
+xfce4-pulseaudio-plugin
+lightdm
+lightdm-gtk-greeter
+
+# ---- network, bluetooth, audio ----
+network-manager
+network-manager-gnome
+bluetooth
+bluez
+blueman
+pulseaudio
+pavucontrol
+alsa-utils
+wireless-tools
+rfkill
+
+# ---- camera, files, media ----
+guvcview
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
+gstreamer1.0-libav
+gvfs
+gvfs-backends
+ntfs-3g
+exfat-fuse
+udisks2
+gparted
+
+# ---- apps + runtime ----
+chromium
+xdg-utils
+python3-minimal
+ca-certificates
+fonts-dejavu
+fonts-liberation
+fonts-noto-color-emoji
+sudo

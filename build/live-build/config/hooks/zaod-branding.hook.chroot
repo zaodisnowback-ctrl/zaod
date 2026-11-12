@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+# executable bits
+chmod +x /usr/local/bin/zaod-home /usr/local/bin/zaod-home-server /usr/local/bin/zaod-wallpaper
+chmod +x /etc/skel/Desktop/*.desktop 2>/dev/null || true
+
+# chromium as default browser
+if command -v chromium >/dev/null 2>&1; then
+  update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/chromium 200 >/dev/null 2>&1 || true
+fi
+
+# keep the ISO small
+apt-get clean
+for d in /var/lib/apt/lists /var/cache/apt/archives /usr/share/doc /usr/share/man; do
+  [ -d "$d" ] && find "$d" -mindepth 1 -delete 2>/dev/null || true
+done
+
+# live user for lightdm autologin
+grep -q '^user:' /etc/passwd || useradd -m -s /bin/bash -G sudo,audio,video,netdev user 2>/dev/null || true

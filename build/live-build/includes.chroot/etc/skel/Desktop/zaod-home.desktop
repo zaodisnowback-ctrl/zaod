@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Zaod Home
+Comment=Zaod OS home screen
+Exec=/usr/local/bin/zaod-home
+Icon=web-browser
+Terminal=false
+StartupNotify=true
+Categories=Network;

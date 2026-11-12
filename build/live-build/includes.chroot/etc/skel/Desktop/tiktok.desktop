@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=TikTok
+Comment=TikTok
+Exec=chromium --app=https://www.tiktok.com
+Icon=tiktok
+Terminal=false
+StartupNotify=true
+Categories=Network;

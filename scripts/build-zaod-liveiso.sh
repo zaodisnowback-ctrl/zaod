@@ -1,90 +1,63 @@
 #!/usr/bin/env bash
+# Zaod OS live ISO build (Debian bookworm + XFCE, lightweight, white theme)
+# Run as root on a real Linux host or VM: live-build needs mount and /dev in the chroot.
 set -euo pipefail
 
-# Zaod OS live ISO build script
-# This is a practical starter template for a Debian-based lightweight ISO.
-# It creates a minimal live system intended for older x86 laptops.
-
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILD_DIR="/tmp/zaod-live-build"
-DISTRO="bookworm"
-ARCH="amd64"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WORK="${WORK:-/mnt/zaod-build}"
+DIST="bookworm"
 MIRROR="https://deb.debian.org/debian"
-SECURITY_MIRROR="https://security.debian.org/debian-security"
+SEC="https://security.debian.org/debian-security"
 
-if ! command -v lb >/dev/null 2>&1; then
-  echo "live-build is not installed. Install it with:"
-  echo "sudo apt update && sudo apt install -y live-build xorriso syslinux isolinux squashfs-tools debootstrap debian-archive-keyring"
-  exit 1
+echo "== Zaod OS build =="
+echo "repo: $REPO"
+echo "work: $WORK"
+
+command -v lb >/dev/null || { echo "live-build missing"; exit 1; }
+
+if [ -d "$WORK" ]; then
+  find "$WORK" -depth -mindepth 1 -delete 2>/dev/null || true
 fi
-
-mkdir -p "$BUILD_DIR"
-cd "$BUILD_DIR"
-
-rm -rf ./*
-
-lb clean || true
+mkdir -p "$WORK"
+cd "$WORK"
 
 lb config \
-  --distribution "$DISTRO" \
-  --architectures "$ARCH" \
+  --mode debian \
+  --distribution "$DIST" \
+  --architectures amd64 \
   --binary-images iso-hybrid \
-  --bootappend-live "boot=live config locales=en_US.UTF-8 keyboard-layouts=us timezone=UTC" \
+  --bootloaders "syslinux,grub-efi" \
+  --debian-installer false \
   --archive-areas "main contrib non-free non-free-firmware" \
-  --keyring-packages "debian-archive-keyring" \
   --apt-recommends false \
   --linux-flavours amd64 \
-  --debian-installer false \
-  --mirror-bootstrap "$MIRROR" \
-  --mirror-chroot "$MIRROR" \
-  --mirror-binary "$MIRROR" \
-  --mirror-chroot-security "$SECURITY_MIRROR" \
-  --mirror-binary-security "$SECURITY_MIRROR" \
-  --security true
+  --bootappend-live "boot=live components quiet splash username=user hostname=zaod locales=en_US.UTF-8 keyboard-layouts=us timezone=UTC" \
+  --mirror-bootstrap "$MIRROR" --mirror-chroot "$MIRROR" --mirror-binary "$MIRROR" \
+  --mirror-chroot-security "$SEC" --mirror-binary-security "$SEC" \
+  --keyring-packages debian-archive-keyring
 
-mkdir -p config/package-lists config/includes.chroot/etc config/includes.chroot/usr/local/share/zaod
+# Zaod overlay: package list, hooks, files
+cp -a "$REPO/build/live-build/config/package-lists/." config/package-lists/
+mkdir -p config/hooks/live
+cp -a "$REPO/build/live-build/config/hooks/." config/hooks/live/
+mkdir -p config/bootloaders/syslinux
+cp -a "$REPO/build/live-build/config/bootloaders/syslinux/." config/bootloaders/syslinux/
+mkdir -p config/includes.chroot
+cp -a "$REPO/build/live-build/includes.chroot/." config/includes.chroot/
 
-cat > config/package-lists/zaod.list <<'EOF'
-xfce4
-xfce4-goodies
-lightdm
-task-xfce-desktop
-firefox-esr
-chromium
-vlc
-network-manager
-network-manager-gnome
-sudo
-curl
-wget
-git
-python3
-python3-venv
-xserver-xorg
-xinit
-xterm
-EOF
+echo "== packages =="
+grep -hvE '^#|^$' config/package-lists/*.list.chroot | tr '\n' ' '; echo
 
-cat > config/includes.chroot/etc/hostname <<'EOF'
-zaod
-EOF
+echo "== lb build =="
+lb build 2>&1 | tee "$WORK/build.log"
 
-cat > config/includes.chroot/usr/local/share/zaod/README.txt <<'EOF'
-Zaod OS
-Lightweight white-themed desktop for older laptops.
-Target: 2GB RAM minimum, 8GB storage minimum, Intel/AMD integrated graphics.
-EOF
-
-mkdir -p config/hooks
-cat > config/hooks/zaod-theme.hook <<'EOF'
-#!/bin/bash
-set -e
-# Minimal system hook to prepare a lightweight desktop environment.
-# This is a starter hook for customization and theming.
-# Add customizations here for branding, wallpapers, and launcher setup.
-EOF
-chmod +x config/hooks/zaod-theme.hook
-
-lb build
-
-echo "ISO build complete. Check the output directory for the resulting .iso file."
+ISO="$(find "$WORK" -maxdepth 1 -type f -name '*.iso' -print -quit || true)"
+if [ -z "$ISO" ]; then
+  echo "ERROR: no ISO produced"
+  exit 1
+fi
+echo "ISO: $ISO ($(du -h "$ISO" | cut -f1))"
+sha256sum "$ISO" | tee "$ISO.sha256"
+if [ -n "${GITHUB_OUTPUT:-}" ]; then
+  echo "iso_path=$ISO" >> "$GITHUB_OUTPUT"
+fi

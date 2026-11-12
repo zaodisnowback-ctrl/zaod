@@ -1,0 +1,17 @@
+#!/bin/bash
+# Applies the Zaod wallpaper to every xfce4-desktop backdrop property found.
+WP=/usr/local/share/zaod/wallpapers/zaod-wallpaper.png
+for i in $(seq 1 20); do
+  props=$(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep -E '/last-image$')
+  if [ -n "$props" ]; then
+    while read -r p; do
+      xfconf-query -c xfce4-desktop -p "$p" -s "$WP" 2>/dev/null
+    done <<< "$props"
+    while read -r p; do
+      xfconf-query -c xfce4-desktop -p "$p" -s 5 2>/dev/null
+    done < <(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep -E '/image-style$')
+    exit 0
+  fi
+  sleep 1
+done
+exit 0

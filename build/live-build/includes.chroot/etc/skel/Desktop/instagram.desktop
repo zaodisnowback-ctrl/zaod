@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Instagram
+Comment=Instagram
+Exec=chromium --app=https://www.instagram.com
+Icon=instagram
+Terminal=false
+StartupNotify=true
+Categories=Network;

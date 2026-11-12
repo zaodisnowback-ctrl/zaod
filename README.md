@@ -1,59 +1,41 @@
 # Zaod OS
 
-Zaod OS is a concept for a lightweight, Chrome-like operating system designed for older laptops and low-end hardware. The goal is a fast, minimal white-themed desktop experience that feels modern without needing heavy resources.
+Lightweight white-themed Debian live system for old laptops
+(2 GB RAM / 8 GB storage class, Intel HD graphics, 2012-2020 machines).
 
-## Target hardware
+What is inside:
 
-- Minimum RAM: 2GB
-- Minimum storage: 8GB
-- CPU: Intel or AMD low-power / old generation laptops
-- Graphics: Intel HD / AMD integrated graphics or lower
-- Firmware: UEFI + Chromebook-friendly boot compatibility
+- Debian 12 (bookworm) live system, XFCE desktop, autologin to a live session
+- Chromium with YouTube, WhatsApp Web, Instagram, Facebook and TikTok as app windows
+- File manager (Thunar), camera (guvcview), Wi-Fi (NetworkManager), Bluetooth (Blueman)
+- Non-free firmware for Intel/Realtek/Atheros/Broadcom Wi-Fi, Intel audio and graphics
+- White Zaod theme: wallpaper, light Adwaita theme, local animated home screen
 
-## Visual direction
+## Build the ISO
 
-- White and soft grey palette
-- Clean, Windows 11-inspired layout
-- Minimal chrome-style interface
-- Lightweight desktop shell and app launcher
-- Fast boot and low memory overhead
+The build runs `live-build`, which needs root and a real Linux host or VM
+(mount and `/dev` inside the chroot). GitHub Actions `ubuntu-24.04` is used here:
 
-## Built-in app concept
+1. Open **Actions -> Build Zaod OS ISO -> Run workflow**, or push to `main`.
+2. After 20-40 minutes the ISO appears in **Releases** (`zaod-os-<n>`) and as an artifact.
 
-- Browser
-- YouTube
-- TikTok
-- Facebook Lite
-- WhatsApp
-- Files
-- Settings
-
-## OS goals
-
-- Fast startup on old laptops
-- Simple UI for non-technical users
-- Low power consumption
-- Chromebook-like boot simplicity
-- Reliable UEFI support for legacy hardware
-
-## Project status
-
-This repository currently contains a polished UI prototype of the Zaod OS desktop shell. It is not a full kernel-based operating system yet, but it serves as a realistic foundation for the product direction and UX design.
-
-## Run locally
-
-From this folder:
+Locally on your own Debian/Ubuntu host with root:
 
 ```bash
-python3 -m http.server 8000
+sudo apt update && sudo apt install -y live-build debootstrap xorriso squashfs-tools \
+  isolinux syslinux-common syslinux-efi grub-efi-amd64-bin grub-pc-bin mtools dosfstools
+sudo WORK=/var/tmp/zaod-build bash scripts/build-zaod-liveiso.sh
 ```
 
-Then open:
+## Write the ISO to a USB stick
 
-```text
-http://localhost:8000
-```
+Use your distro's USB writer (for example GNOME Disks "Restore Disk Image",
+balenaEtcher, or Rufus on Windows) and select the downloaded `zaod-os-*.iso`.
+Pick the USB stick as the target, not your laptop disk.
 
-## Next step
+## Layout
 
-The next major step would be turning this mockup into a real Linux-based thin OS using a lightweight base such as Debian/Xfce or a custom minimal init stack with a custom launcher and app wrappers.
+- `build/live-build/config/` - package list, chroot hooks, syslinux splash
+- `build/live-build/includes.chroot/` - everything copied into the live rootfs
+- `scripts/build-zaod-liveiso.sh` - build entry point
+- `.github/workflows/build-iso.yml` - CI build and release publishing

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Facebook
+Comment=Facebook
+Exec=chromium --app=https://www.facebook.com
+Icon=facebook
+Terminal=false
+StartupNotify=true
+Categories=Network;

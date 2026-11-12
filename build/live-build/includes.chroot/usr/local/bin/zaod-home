@@ -1,0 +1,14 @@
+#!/bin/bash
+# Opens the Zaod OS home screen as a Chromium app window.
+PORT=8765
+if ! pgrep -f zaod-home-server >/dev/null 2>&1; then
+  nohup /usr/local/bin/zaod-home-server >/dev/null 2>&1 &
+  sleep 1
+fi
+[ "${1:-}" = "--autostart" ] && sleep 4
+exec chromium \
+  --app="http://127.0.0.1:${PORT}/" \
+  --window-size=1180,760 --window-position=70,60 \
+  --no-first-run --no-default-browser-check \
+  --disable-features=Translate \
+  --user-data-dir="${HOME}/.config/zaod-chromium"
