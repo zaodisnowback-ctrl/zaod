@@ -31,6 +31,7 @@ lb config \
   --binary-images iso-hybrid \
   --bootappend-live "boot=live config locales=en_US.UTF-8 keyboard-layouts=us timezone=UTC" \
   --archive-areas "main contrib non-free non-free-firmware" \
+  --keyring-packages "debian-archive-keyring" \
   --apt-recommends false \
   --linux-flavours amd64 \
   --debian-installer false \
