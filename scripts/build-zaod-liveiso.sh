@@ -58,7 +58,7 @@ lb config \
   --distribution "$DIST" \
   --architectures amd64 \
   --binary-images iso-hybrid \
-  --bootloaders "syslinux,grub-efi" \
+  --bootloader grub \
   --debian-installer false \
   --archive-areas "main contrib non-free non-free-firmware" \
   --apt-recommends false \
