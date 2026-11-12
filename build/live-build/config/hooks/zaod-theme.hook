@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+# Minimal system hook to prepare a lightweight desktop environment.
+# This is a starter hook for customization and theming.
+# Add customizations here for branding, wallpapers, and launcher setup.

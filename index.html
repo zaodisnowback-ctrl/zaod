@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zaod OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="desktop-shell">
+      <header class="top-bar">
+        <div class="brand-wrap">
+          <div class="brand-mark">Z</div>
+          <span>Zaod OS</span>
+        </div>
+
+        <nav class="system-nav">
+          <button class="nav-pill active">Home</button>
+          <button class="nav-pill">Apps</button>
+          <button class="nav-pill">Drive</button>
+        </nav>
+
+        <div class="status-group">
+          <span class="status-pill">Wi‑Fi</span>
+          <span class="status-pill">Battery 87%</span>
+          <span id="timeLabel" class="status-pill strong">--:--</span>
+        </div>
+      </header>
+
+      <main class="desktop">
+        <aside class="left-panel">
+          <div class="panel-card quick-card">
+            <span class="label">Performance</span>
+            <h3>Balanced</h3>
+            <div class="meter">
+              <span style="width: 72%"></span>
+            </div>
+            <small>2GB RAM mode</small>
+          </div>
+
+          <div class="panel-card">
+            <span class="label">Compatibility</span>
+            <ul>
+              <li>Intel / AMD</li>
+              <li>HD Graphics</li>
+              <li>UEFI + Chromebook</li>
+            </ul>
+          </div>
+        </aside>
+
+        <section class="desktop-area">
+          <div class="desktop-grid" id="desktopGrid">
+            <button class="app-icon" data-app="browser">
+              <span class="icon browser"><span class="dot"></span></span>
+              <span>Browser</span>
+            </button>
+            <button class="app-icon" data-app="youtube">
+              <span class="icon youtube">▶</span>
+              <span>YouTube</span>
+            </button>
+            <button class="app-icon" data-app="tiktok">
+              <span class="icon tiktok">♪</span>
+              <span>TikTok</span>
+            </button>
+            <button class="app-icon" data-app="facebook">
+              <span class="icon facebook">f</span>
+              <span>Facebook Lite</span>
+            </button>
+            <button class="app-icon" data-app="whatsapp">
+              <span class="icon whatsapp">✆</span>
+              <span>WhatsApp</span>
+            </button>
+            <button class="app-icon" data-app="files">
+              <span class="icon files">▣</span>
+              <span>Files</span>
+            </button>
+            <button class="app-icon" data-app="settings">
+              <span class="icon settings">⚙</span>
+              <span>Settings</span>
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <div class="dock">
+        <button class="dock-item active" data-app="browser">B</button>
+        <button class="dock-item" data-app="youtube">Y</button>
+        <button class="dock-item" data-app="tiktok">T</button>
+        <button class="dock-item" data-app="facebook">F</button>
+        <button class="dock-item" data-app="whatsapp">W</button>
+      </div>
+    </div>
+
+    <section class="window active" id="window-browser" data-window="browser">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">Browser</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="browser">—</button>
+        </div>
+      </div>
+      <div class="browser-body">
+        <div class="url-bar">
+          <span>zaod://home</span>
+        </div>
+        <div class="browser-content">
+          <div class="search-panel">
+            <input value="search the web" />
+            <button>Search</button>
+          </div>
+          <div class="cards-row">
+            <div class="mini-card"><strong>News</strong><span>Live</span></div>
+            <div class="mini-card"><strong>Docs</strong><span>Fast</span></div>
+            <div class="mini-card"><strong>Cloud</strong><span>Sync</span></div>
+          </div>
+          <div class="browser-feed">
+            <div class="feed-item"><div class="feed-badge blue"></div><div><h4>Zaod Browser</h4><p>Fast and lightweight for old PCs</p></div></div>
+            <div class="feed-item"><div class="feed-badge purple"></div><div><h4>Chrome-like UI</h4><p>Minimal, quiet, and efficient</p></div></div>
+            <div class="feed-item"><div class="feed-badge green"></div><div><h4>Low RAM mode</h4><p>Optimized for 2GB memory targets</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window" id="window-youtube" data-window="youtube">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">YouTube</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="youtube">—</button>
+        </div>
+      </div>
+      <div class="app-content youtube-content">
+        <div class="video-hero">
+          <div class="play">▶</div>
+          <div>
+            <span class="video-tag">Trending</span>
+            <h3>Fast daily picks</h3>
+          </div>
+        </div>
+        <div class="video-grid">
+          <div class="video-card"><div class="thumb t1"></div><p>Lightweight desktop ideas</p></div>
+          <div class="video-card"><div class="thumb t2"></div><p>Old laptop performance</p></div>
+          <div class="video-card"><div class="thumb t3"></div><p>Minimal setup guides</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window" id="window-tiktok" data-window="tiktok">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">TikTok</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="tiktok">—</button>
+        </div>
+      </div>
+      <div class="app-content social-content">
+        <div class="story-row">
+          <span class="story active"></span>
+          <span class="story"></span>
+          <span class="story"></span>
+          <span class="story"></span>
+        </div>
+        <div class="feed-stack">
+          <div class="short-card">
+            <div class="short-image img1"></div>
+            <p>@zaodos • Fast and clean</p>
+          </div>
+          <div class="short-card">
+            <div class="short-image img2"></div>
+            <p>@zaodos • Old laptop hero</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window" id="window-facebook" data-window="facebook">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">Facebook Lite</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="facebook">—</button>
+        </div>
+      </div>
+      <div class="app-content feed-content">
+        <div class="feed-post">
+          <div class="avatar"></div>
+          <div>
+            <h4>Zaod Community</h4>
+            <p>New update: light UI for old hardware.</p>
+          </div>
+        </div>
+        <div class="feed-post">
+          <div class="avatar alt"></div>
+          <div>
+            <h4>Repair Team</h4>
+            <p>Optimized build for 2GB memory laptops.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window" id="window-whatsapp" data-window="whatsapp">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">WhatsApp</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="whatsapp">—</button>
+        </div>
+      </div>
+      <div class="whatsapp-shell">
+        <aside class="chat-list">
+          <div class="chat-item active"><span></span> Support</div>
+          <div class="chat-item"><span></span> Drivers</div>
+          <div class="chat-item"><span></span> Team</div>
+        </aside>
+        <div class="chat-box">
+          <div class="bubble from">Hello! Zaod OS is ready for testing.</div>
+          <div class="bubble to">Great. We will support older laptops.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window" id="window-files" data-window="files">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">Files</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="files">—</button>
+        </div>
+      </div>
+      <div class="file-view">
+        <div class="folder-row"><span>Downloads</span><small>42 items</small></div>
+        <div class="folder-row"><span>Photos</span><small>19 items</small></div>
+        <div class="folder-row"><span>System</span><small>6 items</small></div>
+      </div>
+    </section>
+
+    <section class="window" id="window-settings" data-window="settings">
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="window-title">Settings</span>
+        <div class="window-actions">
+          <button class="mini-btn" data-close="settings">—</button>
+        </div>
+      </div>
+      <div class="settings-panel">
+        <div class="setting-item"><span>Power save</span><button>On</button></div>
+        <div class="setting-item"><span>Network</span><button>Auto</button></div>
+        <div class="setting-item"><span>Display</span><button>Light</button></div>
+        <div class="setting-item"><span>Compatibility</span><button>UEFI</button></div>
+      </div>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
