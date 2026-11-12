@@ -7,14 +7,14 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="/tmp/zaod-live-build"
-DISTRO="noble"
+DISTRO="bookworm"
 ARCH="amd64"
-MIRROR="http://archive.ubuntu.com/ubuntu"
-SECURITY_MIRROR="http://security.ubuntu.com/ubuntu"
+MIRROR="https://deb.debian.org/debian"
+SECURITY_MIRROR="https://security.debian.org/debian-security"
 
 if ! command -v lb >/dev/null 2>&1; then
   echo "live-build is not installed. Install it with:"
-  echo "sudo apt update && sudo apt install -y live-build xorriso syslinux squashfs-tools debootstrap ubuntu-keyring"
+  echo "sudo apt update && sudo apt install -y live-build xorriso syslinux isolinux squashfs-tools debootstrap debian-archive-keyring"
   exit 1
 fi
 
@@ -30,7 +30,7 @@ lb config \
   --architectures "$ARCH" \
   --binary-images iso-hybrid \
   --bootappend-live "boot=live config locales=en_US.UTF-8 keyboard-layouts=us timezone=UTC" \
-  --archive-areas "main universe multiverse" \
+  --archive-areas "main contrib non-free non-free-firmware" \
   --apt-recommends false \
   --linux-flavours amd64 \
   --debian-installer false \
@@ -48,7 +48,7 @@ xfce4
 xfce4-goodies
 lightdm
 task-xfce-desktop
-firefox
+firefox-esr
 chromium
 vlc
 network-manager

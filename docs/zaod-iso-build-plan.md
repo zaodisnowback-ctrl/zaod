@@ -27,7 +27,7 @@ Use Debian `live-build` tools:
 
 ```bash
 sudo apt update
-sudo apt install -y live-build xorriso syslinux squashfs-tools
+sudo apt install -y live-build xorriso syslinux isolinux squashfs-tools debootstrap debian-archive-keyring
 ```
 
 Then run:
@@ -36,6 +36,14 @@ Then run:
 cd /workspaces/zaod
 bash scripts/build-zaod-liveiso.sh
 ```
+
+## Build with GitHub Actions
+
+The repository includes a manual workflow at `.github/workflows/build-iso.yml`.
+In GitHub, open **Actions**, select **Build Zaod OS ISO**, and choose **Run workflow**.
+When it succeeds, download the `zaod-os-iso` artifact from that run. The artifact is
+kept for 7 days. A completed workflow still needs testing in a virtual machine and
+on target hardware.
 
 ## 4. Post-build steps
 

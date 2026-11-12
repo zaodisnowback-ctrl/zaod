@@ -1,0 +1,50 @@
+name: Build Zaod OS ISO
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install live-build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            live-build \
+            xorriso \
+            syslinux \
+            isolinux \
+            squashfs-tools \
+            debootstrap \
+            debian-archive-keyring
+
+      - name: Build ISO
+        run: sudo bash scripts/build-zaod-liveiso.sh
+
+      - name: Locate ISO
+        id: iso
+        run: |
+          iso_path="$(find /tmp/zaod-live-build -maxdepth 1 -type f -name '*.iso' -print -quit)"
+          if [[ -z "$iso_path" ]]; then
+            echo "No ISO was produced. Build directory contents:"
+            find /tmp/zaod-live-build -maxdepth 2 -type f -printf '%p (%s bytes)\n' | sort
+            exit 1
+          fi
+          echo "path=$iso_path" >> "$GITHUB_OUTPUT"
+          echo "Created $iso_path ($(du -h "$iso_path" | cut -f1))"
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zaod-os-iso
+          path: ${{ steps.iso.outputs.path }}
+          if-no-files-found: error
+          retention-days: 7
