@@ -61,12 +61,17 @@ lb config \
   --bootloader grub \
   --debian-installer false \
   --archive-areas "main contrib non-free non-free-firmware" \
+  --security false \
   --apt-recommends false \
   --linux-flavours amd64 \
   --bootappend-live "boot=live components quiet splash username=user hostname=zaod locales=en_US.UTF-8 keyboard-layouts=us timezone=UTC" \
   --mirror-bootstrap "$MIRROR" --mirror-chroot "$MIRROR" --mirror-binary "$MIRROR" \
   --mirror-chroot-security "$SEC" --mirror-binary-security "$SEC" \
   --keyring-packages debian-archive-keyring
+
+mkdir -p config/archives
+printf 'deb %s bookworm-security main contrib non-free non-free-firmware\n' "$SEC" \
+  > config/archives/zaod-security.list.chroot
 
 # ---- Zaod overlay: package list, hooks, boot splash, files ----
 cp -a "$REPO/build/live-build/config/package-lists/." config/package-lists/
